@@ -1,62 +1,109 @@
-# AmaZen
-<img class="img-responsive" src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&h=600&q=80">
+## Keepr
 
-Welcome to the AmaZen Dev team! AmaZen is a Chakra Cleansing shopping experience where voyagers can add their latest Zen products to our co-op to be sold. They can also create collections of all the chi enriching products to a wishlist to later review and to buy!  This is a totally unique application that will take the world by storm! Problem is we don't know how to build a website, or a server, or an A-Pea-eye? ...So that is where you come in!  We need your help building our dream. If completed to our specifications, when we launch you will be given an AmaZen `gift card**` worthy of your efforts. What an exciting opportunity no?
+<img class="img-responsive" src="https://images.unsplash.com/photo-1462045504115-6c1d931f07d1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80">
 
-## Goals
+Keepr is a social network that allows users to visually share and discover new interests by posting images or videos that can be "kept" in a collection by those who like the content.
 
-In this checkpoint students will demonstrate a working knowledge of building full-stack applications. They will utilize a VueJs frontend using an AppState/observer pattern (`reactive`) to interact with the DOM. On the server side students will use a DotNet core web api utilizing the MVC design pattern, a MySQL Database hosted on GearHost, as well as implementing an Auth0 login to handle user profiles. Students will also be given a design mock that they will need to follow.
-- [Figma Mock](https://www.figma.com/file/BHMu1rLH2lFEC13I6gYw5m/AmaZen-Mock?node-id=0%3A1)
+> A collection(`vault`) of posts(`keeps`) with a common theme. 
 
-## The Business Rules
+Users can view the profiles of other users to see
+- The users name and profile image
+- Their public collection of `vaults`
+- `Keeps` the user has created
 
-AmaZen is a simple enough application, the store page should have listings for all the products that are available, selecting a product should give you a more detailed view of that product. From there a user can then add that product to one of their wishlists. A user can only edit/delete what they create.
-When building AmaZen you consider the following `User Stories`:
- - as a User, I can browse all the available products without being logged in.
- - as a User, I can select a product and view it's details without being logged in.
- - as a User, I can create and account and become a member.
- - as a member, I can upload products to the store page.
- - as an owner of a product, I can edit or delete a product I have created.
- - as a owner of a product, I can mark a product 'un-available' without it being deleted.
- - as a member, I can browse all the products on a wishlist.
- - as an owner of a wishlist I can remove products from that list.
+### Goals
 
-## The Setup
-There is no single template that will give you everything you need this time around.  You will have to create the files for this project yourself, but to help you get started...
+In this checkpoint students will demonstrate a working knowledge of building full-stack applications. They will utilize a VueJs frontend implementing Vuex and Vue-Router to manage the DOM. On the server side students will use a DotNet WebApi for their server, implementing the Repository pattern to communicate with their MySql database. In addition students will use Auth0 for user management and Dapper as an ORM.
 
-For the front end, students should use the **Vue-Starter** template from the `bcw-create` CLI tool.  Students will have to set up their own Auth0 environment variables here as well.
+### The Concepts
 
-On the server side, you will want to set up your Auth0 and Database Variables as well. Starting development for AmaZen you will want to create some models. When doing this keep in mind the relationship between `products` and `wishlists`. You will need to manage the users `profile`, their `products`, `wishlists` and their respective relationship model(wishlistproduct, productwishlist) as well as the view model to go with it.
+Keepr is a typical project where some of the basic layouts have been thought up and the data objects determined. However, implementation of this code is yet to be done. The basic idea is users can browse all of the items (aka `Keeps`) that have been posted without having to login, and post items if they are logged in. If any user wants to store a reference to any particular keep they will store it in the `vault` of their choice. Users can have many vaults, and vaults can be set as public or private.
 
-Members will be allowed to create `products` and then save those `products` and the  `products` of others in their `wish lists`.
+When a user clicks on a keep from the main page the `keep` should be opened up in a more detailed view (i.e. modal see Mock) where they can then choose to add it to one of their `vault`s.
 
+Vaults themselves are relatively straight forward. They only require a `Name`, `Description`, and `IsPrivate` properties. This object will then be used as a part of a relationship to find all the `keep`s that have been added to it. 
 
+For example I may really like game art and thus: 
 
-## Requirements
+> As a user I can create a `vault` named **_Sweet Game Art_** so that I can have a collection to store the `keep`s I like.
 
-- The Front End is styled and adheres to the design mock(this is a broad concept, but straying too far from the mock will upset the client)
-- A user should not have to re-login every time they refresh the page
-- From the **Store** Page Users can create their own products
-- Only authenticated users currently logged in can post products
-- From the **Product** Page a user can view all the details of a product
-- From the **Product** Page a user can at that product to their wishlist
-- A user can view all of their wished products from the **Wishlist** page
-- A user can remove products from a wishlist
-- Only the creator of a **Product** can delete it
-- Only the creator of a **Product** can mark it **un-available**
-- On the store page, only **available** products are returned by the server,
-- A user Must have the ability to log in and out
-- The Backend needs to be able to create and store the useres **Wishlist** 
+Lastly I can view other members profiles to see all the `vault`s and `keep`s they have created *(only the public vaults of other users)*, and look at the `keep`s in each of their `vault`s.
 
-### Bonus Ideas:
-- A user can have multiple **wishlists**
-- A user ratings(stars/points) can be added to products.
-- A Wishlists can be private or shared
-- A single product can have multiple "options" (think 1 shirt with many colors)
-- A search function to find products faster
-- Implement a Sale price, and a "on Sale" property for products
-    - Sort Store Page to show on sale products first
-- Products have category tags for easier searching by tags/category
+### Where is the data?
+
+To get started you are going to need to create some models and think about the necessary relationships. You will need to manage the users `profile`, `keep`s, `vault`s and `vaultkeep`s you will also need at least 1 view model for getting keeps by vaultId.
+
+Users will be allowed to create `vault`s where they can organize the posts(`keep`s) of other users so they can recall the `keep`s they enjoy by looking at that particular `vault`.
+
+In addition to creating and deleting `keep`s and `vault`s, users can add and remove `keep`s from their `vault`s
+
+A single user can have many `vault`s but each `vault` will only belong to a single user. 
+
+> See references below for the UML diagram breaking down properties and relationships for these models.
+
+### Business Rules and Functionality
+
+We want give users some credit for creating excellent `keep`s to do that you will want to set up a way to keep track of the number of times a keep has been viewed, and how many times it has been added to any vault. (as a stretch goal, when it is removed this count should be updated to go down as well).
+
+Due to the privacy of our users, Vaults marked private may only be retrieved by the user who created the vault, there are a few places you will want to make a check on what vaults should be returned.
+
+### Adhering to the Mock
+
+You have been provided the following Figma to provide you the general layout. While this is not strictly required, consider that many of the design descisions (rounded corners, page layout, masonry) are all very much in line with modern design principals. While you are free to alter the theme, strict adherence to the layouts depicted in the mocks is manditory. 
+
+- [Figma Document](https://www.figma.com/file/Uui3335TxIEXWzgp4xrX9r/Keepr?node-id=0%3A1)
+- [Figma Prototype](https://www.figma.com/proto/Uui3335TxIEXWzgp4xrX9r/Keepr?node-id=1%3A53&scaling=min-zoom)
 
 
-<small>**AmaZen gift card is not guaranteed to hold any real world value and likely will not have any real world value outside of bragging rights over your fellow peers</small>
+### BONUS Ideas - Sharing the fun
+
+- `Keep`s should be tagged, allowing users find keeps by tag
+- Users can create custom tags 
+- Tags are not duplicated (Games,games,GAMES)
+- Write a few tests for your components 80/20.
+- Implement pagination or infinite scroll
+- Users can extend their profile to include a bio, ect...
+
+# Requirements
+
+- Visitors can see all `keep`s (login not required)
+- `Keep` cards are displayed in accordance to mock
+	- A `keep` card includes image, title, creator avatar
+	- Clicking on the creator avatar navigates to the creators profile page *(stop propagate)*
+- Cards follow a mansonry layout *(bootstrap card columns OR masonry)*
+- Clicking on a `keep` card opens the `keep` in a modal which adheres to mock
+	- Keep Count
+	- View Count
+	- Keep Description
+	- Keep Title
+	- Keep Creator name and avatar
+	- Keep Image
+	- Add to vault functionality
+- All users have a public profile page
+- The profile page adheres to mock:
+	- **Public** vaults
+	- **Private** vaults if it is their own page
+	- Keeps created by that user
+	- Total `keep`s count
+	- Total public `vault`s count
+	- The users name and avatar
+- Each `vault` has its own route where users can view all of the `keeps` in the vault
+- On the `vault` page, if the `vault` is private and not the active users the request fails
+- From the `vault` page if the user is the creator they can remove `keep`s from the `vault`
+- Anytime a `keep` is `kept in a vault` the keep count is incremented
+- Users can Register, login and automatically authenticated on refresh
+- Create and Delete Keeps
+- Create and Delete Vaults
+- Users can only Delete **things they created**
+- All deletes require confirmation
+- Add `keeps` to `vault`s
+- Remove `keeps` from `vault`s
+- All API Tests pass
+
+### Finished?
+
+> Make sure you test it. When You are finished submit your project to the gradebook and notify your instructor
+
+---
+***UML Reference***
+![reference](https://bcw.blob.core.windows.net/public//6185725379684459)
