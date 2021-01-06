@@ -1,11 +1,11 @@
 <template>
-  <div class="keeps-controller">
+  <div class="vault-component">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'KeepsController',
+  name: 'VaultComponent',
   setup() {
     return {}
   },

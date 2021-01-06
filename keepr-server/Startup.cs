@@ -62,15 +62,20 @@ namespace keepr_server
       services.AddControllers();
       services.AddSwaggerGen(c =>
       {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "keepr-server", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "keepr_server", Version = "v1" });
       });
 
       // REVIEW Do you want to do something here?
       services.AddScoped<IDbConnection>(x => CreateDbConnection());
+      services.AddTransient<ProfilesService>();
       services.AddTransient<VaultsService>();
       services.AddTransient<KeepsService>();
+      services.AddTransient<VaultKeepsService>();
+
+      services.AddTransient<ProfilesRepository>();
       services.AddTransient<VaultsRepository>();
       services.AddTransient<KeepsRepository>();
+      services.AddTransient<VaultKeepsRepository>();
 
     }
 
@@ -88,7 +93,7 @@ namespace keepr_server
       {
         app.UseDeveloperExceptionPage();
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "keepr-server v1"));
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "keepr_server v1"));
         app.UseCors("CorsDevPolicy");
       }
 
