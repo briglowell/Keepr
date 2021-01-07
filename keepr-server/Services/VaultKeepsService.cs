@@ -33,7 +33,7 @@ namespace keepr_server.Services
       {
         throw new Exception("Not the User : Access Denied");
       }
-      if (_repo.Remove(id))
+      if (_repo.Delete(id))
       {
         return "deleted succesfully";
       }

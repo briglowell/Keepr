@@ -62,5 +62,13 @@ namespace keepr_server.Repositories
         WHERE id = @Id;";
       _db.Execute(sql, editData);
     }
+
+    internal bool Delete(int id)
+    {
+      string sql = "DELETE FROM vaults WHERE id = @Id LIMIT 1;";
+      int affectedRows = _db.Execute(sql, new { id });
+      // returns a bool
+      return affectedRows > 0;
+    }
   }
 }

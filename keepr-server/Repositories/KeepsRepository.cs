@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using Dapper;
@@ -35,6 +36,14 @@ namespace keepr_server.Repositories
         JOIN profiles p ON keep.creatorId = p.id
         WHERE keep.creatorId = @profId; ";
       return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, new { profId }, splitOn: "id");
+    }
+
+    internal bool Delete(int id)
+    {
+      string sql = "DELETE FROM keeps WHERE id = @Id LIMIT 1;";
+      int affectedRows = _db.Execute(sql, new { id });
+      // returns a bool
+      return affectedRows > 0;
     }
 
     internal Keep GetOne(int id)

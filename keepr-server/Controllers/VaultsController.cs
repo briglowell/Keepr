@@ -56,7 +56,7 @@ namespace keepr_server.Controllers
       }
     }
 
-    [HttpGet("{vaultId}/vaultkeeps")]
+    [HttpGet("{vaultId}/keeps")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
       try
@@ -83,6 +83,21 @@ namespace keepr_server.Controllers
       catch (System.Exception e)
       {
         return BadRequest(e.Message);
+      }
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+    public ActionResult<string> Delete(int id)
+    {
+      try
+      {
+        return Ok(_vs.Delete(id));
+      }
+      catch (System.Exception err)
+      {
+
+        return BadRequest(err.Message);
       }
     }
   }

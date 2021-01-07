@@ -53,5 +53,20 @@ namespace keepr_server.Controllers
       }
     }
 
+    [HttpDelete("{id}")]
+    [Authorize]
+    public ActionResult<string> Delete(int id)
+    {
+      try
+      {
+        return Ok(_vks.Delete(id));
+      }
+      catch (System.Exception err)
+      {
+
+        return BadRequest(err.Message);
+      }
+    }
+
   }
 }

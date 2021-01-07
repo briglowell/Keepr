@@ -43,5 +43,15 @@ namespace keepr_server.Services
       return _repo.GetOne(editData.Id);
 
     }
+
+    internal string Delete(int id)
+    {
+      if (_repo.Delete(id))
+      {
+        return "deleted successfully";
+      }
+      throw new Exception
+      ("something went wrong, not deleted");
+    }
   }
 }
