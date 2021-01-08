@@ -20,7 +20,7 @@ namespace keepr_server.Repositories
         SELECT k.*,
         vk.id as VaultKeepId,
         p.*
-        FROM Vaultkeep vk
+        FROM Vaultkeeps vk
         JOIN keeps k ON k.id = vk.keepId
         JOIN profiles p ON p.id = k.creatorId
         WHERE vaultId = @vaultId;";
@@ -41,6 +41,13 @@ namespace keepr_server.Repositories
     internal bool Delete(int id)
     {
       string sql = "DELETE from vaultkeeps WHERE id = @id";
+      int valid = _db.Execute(sql, new { id });
+      return valid > 0;
+    }
+
+    internal bool DeleteAllByVaultId(int id)
+    {
+      string sql = "DELETE from vaultkeeps WHERE vaultId = @id";
       int valid = _db.Execute(sql, new { id });
       return valid > 0;
     }

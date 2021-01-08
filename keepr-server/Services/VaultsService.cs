@@ -24,6 +24,11 @@ namespace keepr_server.Services
       return _repo.Get();
     }
 
+    internal Vault GetVaultById(int vaultId)
+    {
+      return _repo.GetOne(vaultId);
+    }
+
     public Vault Create(Vault newVault)
     {
       newVault.Id = _repo.Create(newVault);
@@ -53,5 +58,6 @@ namespace keepr_server.Services
       throw new Exception
       ("something went wrong, not deleted");
     }
+
   }
 }

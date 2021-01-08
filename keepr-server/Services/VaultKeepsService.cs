@@ -39,5 +39,15 @@ namespace keepr_server.Services
       }
       return "did not remove succesfully";
     }
+
+    internal string DeleteAllByVaultId(int id)
+    {
+      if (_repo.DeleteAllByVaultId(id))
+      {
+        return "deleted successfully";
+      }
+      throw new Exception
+      ("something went wrong, not deleted");
+    }
   }
 }

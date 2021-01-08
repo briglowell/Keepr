@@ -21,7 +21,7 @@ namespace keepr_server.Services
     }
     internal IEnumerable<Keep> GetKeepsByProfile(string profileId, string userId)
     {
-      return _repo.getKeepsByProfile(profileId).ToList().FindAll(v => v.CreatorId == userId);
+      return _repo.getKeepsByProfile(profileId).ToList().FindAll(k => k.CreatorId == userId);
     }
     internal Keep Create(Keep newKeep)
     {
@@ -37,6 +37,32 @@ namespace keepr_server.Services
       {
         throw new Exception("Not the User : Access Denied");
       }
+
+      if (editData.Name == null)
+      {
+        editData.Name = original.Name;
+      }
+      if (editData.Img == null)
+      {
+        editData.Img = original.Img;
+      }
+      if (editData.Description == null)
+      {
+        editData.Description = original.Description;
+      }
+      if (editData.Views == 0)
+      {
+        editData.Views = original.Views;
+      }
+      if (editData.Keeps == 0)
+      {
+        editData.Keeps = original.Keeps;
+      }
+      if (editData.Shares == 0)
+      {
+        editData.Shares = original.Shares;
+      }
+
       _repo.Edit(editData);
 
       return _repo.GetOne(editData.Id);

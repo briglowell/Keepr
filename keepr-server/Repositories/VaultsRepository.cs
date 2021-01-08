@@ -36,7 +36,8 @@ namespace keepr_server.Repositories
 
     internal Vault GetOne(int id)
     {
-      string sql = @"SELECT * from blogs WHERE id = @id";
+      string sql = @"SELECT * from vaults WHERE id = @id";
+      // string sql = populateCreator + "WHERE vault.id = @id";
       return _db.QueryFirstOrDefault<Vault>(sql, new { id });
     }
 

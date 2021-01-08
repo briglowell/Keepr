@@ -56,6 +56,19 @@ namespace keepr_server.Controllers
       }
     }
 
+    [HttpGet("{vaultId}")]
+    public ActionResult<IEnumerable<Keep>> GetVaultById(int vaultId)
+    {
+      try
+      {
+        return Ok(_vs.GetVaultById(vaultId));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
     [HttpGet("{vaultId}/keeps")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
@@ -68,6 +81,24 @@ namespace keepr_server.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    // [HttpPost]
+    // [Authorize]
+    // public async Task<ActionResult<Vault>> CreateVaultKeep([FromBody] VaultKeep newVaultKeep)
+    // {
+    //   try
+    //   {
+    //     Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+    //     newVaultKeep.CreatorId = userInfo.Id;
+    //     Vault created = _vs.CreateVaultKeep(newVaultKeep);
+    //     created.Creator = userInfo;
+    //     return Ok(created);
+    //   }
+    //   catch (System.Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
 
     [HttpPut("{id}")]
     [Authorize]

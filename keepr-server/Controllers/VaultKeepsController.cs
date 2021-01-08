@@ -53,18 +53,20 @@ namespace keepr_server.Controllers
       }
     }
 
-    [HttpDelete("{id}")]
     [Authorize]
-    public ActionResult<string> Delete(int id)
+    [HttpDelete("{id}/keeps")]
+    public async Task<ActionResult<string>> DeleteAllByVaultId(int id)
     {
       try
       {
-        return Ok(_vks.Delete(id));
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        return Ok(_vks.DeleteAllByVaultId(id));
       }
-      catch (System.Exception err)
+      catch (System.Exception e)
       {
 
-        return BadRequest(err.Message);
+        return BadRequest(e.Message);
+
       }
     }
 

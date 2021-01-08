@@ -42,7 +42,7 @@
           Login
         </button>
 
-        <div class="dropdown" v-else>
+        <div class="dropdown bg-light-g p-2" v-else>
           <div
             class="dropdown-toggle"
             @click="state.dropOpen = !state.dropOpen"
@@ -53,10 +53,10 @@
               height="40"
               class="rounded"
             />
-            <span class="mx-3">{{ user.name }}</span>
+            <span class="mx-3 text-white">{{ user.name }}</span>
           </div>
           <div
-            class="dropdown-menu p-0 list-group w-100"
+            class="dropdown-menu p-0 list-group w-100 "
             :class="{ show: state.dropOpen }"
             @click="state.dropOpen = false"
           >
@@ -82,6 +82,8 @@
 import { AuthService } from '../services/AuthService'
 import { AppState } from '../AppState'
 import { computed, reactive } from 'vue'
+import { vaultsService } from '../services/VaultsService'
+import router from '../router'
 export default {
   name: 'Navbar',
   setup() {
@@ -92,7 +94,9 @@ export default {
       state,
       user: computed(() => AppState.user),
       async login() {
-        AuthService.loginWithPopup()
+        await AuthService.loginWithPopup()
+        router.push({ name: 'Profile' })
+        vaultsService.getMyVaults()
       },
       async logout() {
         await AuthService.logout({ returnTo: window.location.origin })
@@ -126,5 +130,8 @@ a:hover {
 }
 .nav-green{
   background-color: #55efc4;
+}
+.bg-light-g{
+  background-color: #636e72;
 }
 </style>
