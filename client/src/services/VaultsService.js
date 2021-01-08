@@ -5,7 +5,6 @@ class VaultsService {
   async getVaults() {
     try {
       const res = await api.get('api/vaults')
-      logger.log(res.data)
       AppState.vaults = res.data
     } catch (error) {
       logger.error(error)
@@ -15,7 +14,6 @@ class VaultsService {
   async getVaultById(id) {
     try {
       const res = await api.get('api/vaults/' + id)
-      logger.log(id)
       // logger.log(res.data)
       AppState.activeVault = res.data
     } catch (error) {
@@ -25,8 +23,16 @@ class VaultsService {
 
   async getMyVaults() {
     try {
-      logger.log(AppState.profile)
-      const res = await api(`profiles/${AppState.profile.id}/vaults`)
+      const res = await api(`api/profiles/${AppState.profile.id}/vaults`)
+      AppState.vaults = res.data
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  async getVisitedVaults(id) {
+    try {
+      const res = await api(`api/profiles/${id}/vaults`)
       AppState.vaults = res.data
     } catch (error) {
       logger.error(error)
@@ -35,7 +41,6 @@ class VaultsService {
 
   async getVaultKeeps(vaultId) {
     try {
-      logger.log(AppState.profile)
       const res = await api(`api/vaults/${vaultId}/keeps`)
       AppState.vaultKeeps = res.data
     } catch (error) {
@@ -46,8 +51,6 @@ class VaultsService {
   async createVaultKeep(vaultKeep) {
     try {
       await api.post('api/vaultkeeps', vaultKeep)
-      // this.getKeeps()
-      // NOTE add edit to increase keep count
     } catch (error) {
       logger.log(error)
     }
@@ -64,7 +67,9 @@ class VaultsService {
 
   async delete(vaultId) {
     try {
-      await api.delete('api/vaultkeeps/' + vaultId + '/keeps')
+      if (AppState.vaultKeeps.length > 0) {
+        await api.delete('api/vaultkeeps/' + vaultId + '/keeps')
+      }
       await api.delete(`api/vaults/${vaultId}`)
     } catch (error) {
       logger.log(error)

@@ -20,6 +20,8 @@
       <div class="col-12 mb-3">
         <h1>Keeps <i class="fas fa-plus green-color ml-2 cursor-point" v-if="profile.email === user.email" data-toggle="modal" data-target="#keepModal"></i></h1>
       </div>
+    </div>
+    <div class="card-columns">
       <KeepComponent v-for="keep in keeps" :keep-prop="keep" :key="keep.id" />
     </div>
   </div>
@@ -140,7 +142,7 @@ export default {
       state,
       profile: computed(() => AppState.profile),
       vaults: computed(() => AppState.vaults),
-      keeps: computed(() => AppState.keeps),
+      keeps: computed(() => AppState.myKeeps),
       user: computed(() => AppState.user),
       createKeep() {
         keepService.create(state.newKeep)
@@ -153,7 +155,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 img {
   max-width: 100px;
 }

@@ -8,9 +8,11 @@ namespace keepr_server.Services
   public class VaultKeepsService
   {
     private readonly VaultKeepsRepository _repo;
-    public VaultKeepsService(VaultKeepsRepository repo)
+    private readonly VaultsRepository _vr;
+    public VaultKeepsService(VaultKeepsRepository repo, VaultsRepository vr)
     {
       _repo = repo;
+      _vr = vr;
     }
 
     internal IEnumerable<Keep> GetKeepsByVaultId(int vaultId)
@@ -19,8 +21,14 @@ namespace keepr_server.Services
 
     }
 
-    public VaultKeep Create(VaultKeep newVk)
+    public VaultKeep Create(VaultKeep newVk, string userId)
     {
+      Vault original = _vr.GetOne(newVk.VaultId);
+      if (original == null) { throw new Exception("Bad Id"); }
+      if (original.CreatorId != userId)
+      {
+        throw new Exception("Not the User : Access Denied");
+      }
       newVk.Id = _repo.Create(newVk);
       return newVk;
     }

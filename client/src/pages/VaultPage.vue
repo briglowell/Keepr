@@ -20,6 +20,7 @@ import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { vaultsService } from '../services/VaultsService'
 import { AppState } from '../AppState'
+import router from '../router'
 export default {
   name: 'VaultPage',
   setup() {
@@ -32,8 +33,9 @@ export default {
       keeps: computed(() => AppState.vaultKeeps),
       vault: computed(() => AppState.activeVault),
       deleteVault() {
-        if (window.confirm) {
+        if (window.confirm('Do you really want to delete the vault?')) {
           vaultsService.delete(route.params.id)
+          router.push({ name: 'Profile' })
         }
       }
     }

@@ -26,7 +26,13 @@ namespace keepr_server.Services
 
     internal Vault GetVaultById(int vaultId)
     {
-      return _repo.GetOne(vaultId);
+      Vault res = _repo.GetOne(vaultId);
+      if (res == null) { throw new Exception("Bad Id"); }
+      if (res.IsPrivate == true)
+      {
+        throw new Exception("Vault is Private : Access Denied");
+      }
+      return res;
     }
 
     public Vault Create(Vault newVault)

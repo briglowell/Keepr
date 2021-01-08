@@ -51,6 +51,20 @@ namespace keepr_server.Controllers
       }
     }
 
+    [HttpGet("{id}")]
+    public ActionResult<Keep> Get(int id)
+    {
+      try
+      {
+        return Ok(_ks.GetKeepById(id));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+
     [HttpPut("{id}")]
     public async Task<ActionResult<Keep>> Edit(int id, [FromBody] Keep editData)
     {

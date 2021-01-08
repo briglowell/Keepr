@@ -19,12 +19,15 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link :to="{ name: 'Home' }" class="nav-link">
-            <img
+            <!-- <img
               alt="logo"
               src="https://lh3.googleusercontent.com/proxy/Ojrset02bsujp8cvSRgAekAPSYm_pw0T5LYf-nU5BokzRlCR1FHiM-r0syf2xY0Lez0Wk4nJ0MUDTZGX1rqLBk48IQcTxZiJ_89O0QkEteZdDEkEIZkk1yfAomwqeoCCAQLuuRE"
               height="45"
-              class="border border-dark"
-            />
+
+            /> -->
+            <h1 class="border border-dark text-dark px-2">
+              K
+            </h1>
           </router-link>
         </li>
         <!-- <li class="nav-item">

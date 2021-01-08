@@ -19,9 +19,14 @@ namespace keepr_server.Services
     {
       return _repo.Get();
     }
+    internal Keep GetKeepById(int id)
+    {
+      return _repo.GetOne(id);
+    }
+
     internal IEnumerable<Keep> GetKeepsByProfile(string profileId, string userId)
     {
-      return _repo.getKeepsByProfile(profileId).ToList().FindAll(k => k.CreatorId == userId);
+      return _repo.getKeepsByProfile(profileId).ToList().FindAll(k => k.CreatorId == profileId);
     }
     internal Keep Create(Keep newKeep)
     {
@@ -67,6 +72,8 @@ namespace keepr_server.Services
 
       return _repo.GetOne(editData.Id);
     }
+
+
 
     internal string Delete(int id)
     {

@@ -15,6 +15,7 @@ namespace keepr_server.Repositories
     {
       _db = db;
     }
+
     public int Create(Keep newKeep)
     {
       string sql = @"
@@ -40,7 +41,7 @@ namespace keepr_server.Repositories
 
     internal bool Delete(int id)
     {
-      string sql = "DELETE FROM keeps WHERE id = @Id LIMIT 1;";
+      string sql = "DELETE FROM keeps WHERE id = @id LIMIT 1;";
       int affectedRows = _db.Execute(sql, new { id });
       // returns a bool
       return affectedRows > 0;

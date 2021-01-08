@@ -1,25 +1,25 @@
 <template>
-  <div class="col-lg-3 col-6">
-    <div
-      class="keep-component keep-img card p-2 shadow-lg"
-      type="button"
-      data-toggle="modal"
-      :data-target="'#KeepModalCenter-'+keep.id"
-    >
-      <div class="card bg-light-g text-white" @click="increaseView">
-        <img :src="keep.img" class="card-img img-fluid" alt="...">
-        <div class="card-img-overlay">
-          <div :id="'keep-'+ keep.id"></div>
-          <div class="d-flex h-100 justify-content-between align-items-end">
-            <h5 class="card-title">
-              {{ keep.name }}
-            </h5>
-            <img :src="keep.creator.picture" alt="..." class="h-small rounded-circle">
-          </div>
+  <!-- <div class="col-lg-3 col-6"> -->
+  <div
+    class="keep-component keep-img card p-2 shadow-lg"
+    type="button"
+    data-toggle="modal"
+    :data-target="'#KeepModalCenter-'+keep.id"
+  >
+    <div class="card bg-light-g text-white" @click="increaseView">
+      <img :src="keep.img" class="card-img img-fluid" alt="...">
+      <div class="card-img-overlay">
+        <div :id="'keep-'+ keep.id"></div>
+        <div class="d-flex h-100 justify-content-between align-items-end">
+          <h5 class="card-title">
+            {{ keep.name }}
+          </h5>
+          <img :src="keep.creator.picture" alt="..." class="h-small rounded-circle">
         </div>
       </div>
     </div>
   </div>
+  <!-- </div> -->
 
   <!-- Modal -->
   <div class="modal fade"
@@ -68,8 +68,8 @@
                       </button>
                     </div>
                     <i class="fas fa-trash mr-4 cursor-point" v-if="profile.id === keep.creatorId" @click="deleteKeep" data-dismiss="modal"></i>
-                    <img :src="keep.creator.picture" alt="..." class="h-25 rounded-circle cursor-point" data-dismiss="modal">
-                    <span class="cursor-point" data-dismiss="modal">{{ keep.creator.name }}</span>
+                    <img :src="keep.creator.picture" alt="..." class="h-25 rounded-circle cursor-point" data-dismiss="modal" @click="visitProfile">
+                    <span class="cursor-point" data-dismiss="modal" @click="visitProfile">{{ keep.creator.name }}</span>
                   </div>
                 </div>
               </div>
@@ -87,6 +87,7 @@ import { AppState } from '../AppState'
 import { keepService } from '../services/KeepService'
 import { vaultsService } from '../services/VaultsService'
 import { useRoute } from 'vue-router'
+import router from '../router'
 export default {
   name: 'KeepComponent',
   props: ['keepProp'],
@@ -101,7 +102,9 @@ export default {
       profile: computed(() => AppState.profile),
       vaultKeeps: computed(() => AppState.vaultKeeps),
       deleteKeep() {
-        keepService.delete(props.keepProp.id)
+        if (window.confirm('Are you sure you want to delete?')) {
+          keepService.delete(props.keepProp.id)
+        }
       },
       addToVault(id) {
         const vaultKeepObject = {}
@@ -126,6 +129,9 @@ export default {
         const newKeep = props.keepProp
         newKeep.views++
         keepService.edit(props.keepProp.id, newKeep)
+      },
+      visitProfile() {
+        router.push({ name: 'VisitedProfile', params: { id: props.keepProp.creatorId } })
       }
     }
   },
