@@ -5,7 +5,7 @@
         <h1>{{ vault.name }}</h1>
         <h4>{{ vault.description }}</h4>
         <p>Keeps: {{ keeps.length }}</p>
-        <button class="btn btn-danger" @click="deleteVault">
+        <button class="btn btn-danger" @click="deleteVault" v-if="profile.id === vault.creatorId">
           Remove Vault
         </button>
       </div>
@@ -21,17 +21,20 @@ import { useRoute } from 'vue-router'
 import { vaultsService } from '../services/VaultsService'
 import { AppState } from '../AppState'
 import router from '../router'
+import { profileService } from '../services/ProfileService'
 export default {
   name: 'VaultPage',
   setup() {
     const route = useRoute()
     onMounted(async() => {
+      await profileService.getProfile()
       await vaultsService.getVaultById(route.params.id)
       await vaultsService.getVaultKeeps(route.params.id)
     })
     return {
       keeps: computed(() => AppState.vaultKeeps),
       vault: computed(() => AppState.activeVault),
+      profile: computed(() => AppState.profile),
       deleteVault() {
         if (window.confirm('Do you really want to delete the vault?')) {
           vaultsService.delete(route.params.id)

@@ -38,10 +38,6 @@ namespace keepr_server.Services
     {
       Keep original = _repo.GetOne(editData.Id);
       if (original == null) { throw new Exception("Bad Id"); }
-      if (original.CreatorId != userId)
-      {
-        throw new Exception("Not the User : Access Denied");
-      }
 
       if (editData.Name == null)
       {
@@ -66,6 +62,20 @@ namespace keepr_server.Services
       if (editData.Shares == 0)
       {
         editData.Shares = original.Shares;
+      }
+
+      if (original.CreatorId != userId)
+      {
+        if (editData.Name != original.Name || editData.Img != original.Img || editData.Description != editData.Description)
+        {
+          throw new Exception("Not the User : Access Denied");
+        }
+        else
+        {
+          _repo.Edit(editData);
+
+          return _repo.GetOne(editData.Id);
+        }
       }
 
       _repo.Edit(editData);

@@ -5,7 +5,7 @@ class KeepService {
   async getKeeps() {
     try {
       const res = await api.get('api/keeps')
-      logger.log(res.data)
+      // logger.log(res.data)
       AppState.keeps = res.data
     } catch (error) {
       logger.error(error)
