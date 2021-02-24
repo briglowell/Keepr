@@ -11,6 +11,14 @@ class ProfileService {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
   }
+
+  async clearAppstate() {
+    AppState.activeVault = {}
+    AppState.keeps = []
+    AppState.vaultKeeps = []
+    AppState.vaults = []
+    AppState.profile = {}
+  }
 }
 
 export const profileService = new ProfileService()

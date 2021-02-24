@@ -90,7 +90,14 @@ import { useRoute } from 'vue-router'
 import router from '../router'
 export default {
   name: 'KeepComponent',
-  props: ['keepProp'],
+  props: {
+    keepProp: {
+      type: Object,
+      default: function() {
+        return {}
+      }
+    }
+  },
   setup(props) {
     const route = useRoute()
     onMounted(() => {
